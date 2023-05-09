@@ -1,16 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getDatabase, push, ref, set, onChildAdded } from "firebase/database";
+
 import './App.css';
 
 function App() {
   const [name, setName] = useState('');
   const [chats, setChats] = useState([]);
-
   const [msg, setMsg] = useState('');
 
+  const db = getDatabase();
+  const chatListRef = ref(db, 'chats');
+
+  useEffect(() => {
+    onChildAdded(chatListRef, (data) => {
+      setChats(chats => [...chats, data.val()])
+    });
+  }, [])
+
   const sendChat = () => {
-    const c = [...chats];
-    c.push({ name: name, message: msg });
-    setChats(c);
+
+
+    const chatRef = push(chatListRef);
+    set(chatRef, {
+      name: name, message: msg
+    });
+
     setMsg('');
   };
 

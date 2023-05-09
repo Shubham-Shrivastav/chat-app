@@ -42,3 +42,9 @@
   border: none;
   cursor: pointer;
 }
+
+.chat-container {
+  height: 80vh;
+  overflow-y: scroll;
+  order: 1px solid black;
+}
