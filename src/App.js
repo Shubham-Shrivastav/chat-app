@@ -11,6 +11,7 @@ function App() {
   const db = getDatabase();
   const chatListRef = ref(db, 'chats');
 
+
   useEffect(() => {
     onChildAdded(chatListRef, (data) => {
       setChats(chats => [...chats, data.val()])
@@ -18,11 +19,9 @@ function App() {
   }, [])
 
   const sendChat = () => {
-
-
     const chatRef = push(chatListRef);
     set(chatRef, {
-      name: name, message: msg
+      name, message: msg
     });
 
     setMsg('');
@@ -31,15 +30,15 @@ function App() {
   return (
     <div>
       {name ? null : <div>
-        <input tpe="text" placeholder="Enter your name to chat" onBlur={e => setName(e.target.value)}></input>
+        <input tpe="text" placeholder="Enter your name" onBlur={e => setName(e.target.value)}></input>
       </div>}
 
       {name ? <div>
         <h3>User: {name}</h3>
         <div className="chat-container">
-          {chats.map((c, index) => (
+          {chats.map((c, i) => (
             <div
-              key={index}
+              key={i}
               className={`container ${c.name === name ? 'me' : ''}`}
             >
               <p className="chatbox">
